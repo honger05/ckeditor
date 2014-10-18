@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>CKEditor</title>
+	</head>
+	<body>
+		<textarea id="editor">asdsd</textarea><br/>
+		<div id="editorDiv"></div>
+	</body>
+	<script src="ckeditor_full/ckeditor.js"></script>
+	<script>
+	
+		var editor1 = CKEDITOR.replace("editor",{
+			toolbar:"Full",
+			uiColor:"",
+			on :{   //自定义排版规则         
+					instanceReady : function( ev ){   
+						var writer = this.dataProcessor.writer;
+						writer.indentationChars = '\t';  //缩进字符串
+						writer.selfClosingEnd = ' />';  //关闭自动关闭标签的方式，像<br />。
+						writer.lineBreakChars = '\n';   //换行字符串     
+						// Output paragraphs as <p>Text</p>.                
+						writer.setRules( 'p',{                        
+							indent : false, //缩进                       
+							breakBeforeOpen : true, //<P>标签之前插入一个换行                       
+							breakAfterOpen : false, //<P>标签之后插入一个换行                      
+							breakBeforeClose : false,//</P>标签之前插入一个换行                       
+							breakAfterClose : true  //</P>标签之后插入一个换行                   
+						});            
+					}       
+			}
+		});
+		
+		//自定义样式
+		CKEDITOR.addStylesSet( 'my_styles',[
+		    // Block Styles    
+		    { name : 'Blue Title', element : 'h2', styles : { 'color' : 'Blue' } },    
+		    { name : 'Red Title' , element : 'h1', styles : { 'color' : 'Red' } },    
+		    // Inline Styles    
+		    { name : 'CSS Style', element : 'span', attributes : { 'class' : 'my_style' } },    
+		    { name : 'Marker: Yellow', element : 'span', styles : { 'background-color' : 'Yellow' } }
+		]);
+		
+		CKEDITOR.on( 'instanceReady', function( ev ){        
+			// Out self closing tags the HTML4 way, like <br>.        
+			ev.editor.dataProcessor.writer.selfClosingEnd = '>';
+			ev.editor.setReadOnly( false );    
+		});
+		
+		var editor = CKEDITOR.appendTo("editorDiv",{
+			customConfig:"custom/ckedit_config.js"
+		});
+		
+		
+		
+		
+		//alert( CKEDITOR.tools.cssStyleToDomStyle( 'background-color' ) );  
+		
+	</script>
+</html>

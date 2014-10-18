@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>CKEditor</title>
+		<link rel="stylesheet" href="ckeditor_full/samples/sample.css"/>
+	</head>
+	<body>
+		
+		<textarea id="editor1" name="editor1"></textarea>
+		
+		<div contenteditable="true">
+			<p>eeeeeeeeeeeeeeeeeeeee</p>
+			<p>rrrrrrrrrrrrrrrrrrrrr</p>
+			<p>ttttttttttttttttttttt</p>
+		</div>
+		
+		<div id="editor3">
+			<p>cccccccccccccccccc</p>
+			<p>dddddddddddddddddd</p>
+		</div>
+		
+		<button id="sbmt">保存</button>
+	</body>
+	<script src="jquery.min.js"></script>
+	<script src="ckeditor_full/ckeditor.js"></script>
+	<script>
+	     //http://ckeditor.com/ckeditor_4.3_beta/ckeditor.js
+	     
+		//初始化设置
+    	CKEDITOR.on( 'instanceReady', function( ev ){
+        	var editor = ev.editor;
+        	editor.setReadOnly( false );
+    	}); 
+	
+	    //创建实例
+		var editor1 = CKEDITOR.replace("editor1",{
+			allowedContent: true,
+			//extraPlugins: 'uicolor,tableresize,image2,sourcedialog',
+			fullPage: false
+		});
+		editor1.setData('<p style="color: red">Hello <em>world</em>!</p>');
+
+
+		//不激活contenteditable="true"模式
+		//CKEDITOR.disableAutoInline = true;
+		
+		//inline模式
+		var editor3 = CKEDITOR.inline('editor3',{
+			//extraPlugins: 'uicolor',
+			readOnly:false,
+			toolbar: [
+				[ 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+				[ 'FontSize', 'TextColor', 'BGColor' ],
+				[ 'UIColor' ]
+			]
+		});
+		
+		//alert(editor3);
+		
+		//拿到所有实例
+		var instances = CKEDITOR.instances;
+		
+		//提交按钮
+		$("#sbmt").click(function(){
+			var data1 = editor1.getData();
+			var data3 = instances.editor3.getData();
+			alert(data1);
+		});
+	</script>
+</html>
